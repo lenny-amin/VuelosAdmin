@@ -49,7 +49,7 @@ namespace AdminVuelos
         }
         public static void Datos()
         {
-            pu
+            //pu
         }
     }
 }
