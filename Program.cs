@@ -9,7 +9,7 @@ namespace AdminVuelos
         public static List<Pasajero> Pasajeros = new List<Pasajero>();
         public static List<Reserva> Reservas = new List<Reserva>();
         public static List<Vuelo> Vuelos = new List<Vuelo>();
-        public static bool Login = false; 
+        public static bool Login = true; 
 
         static void Main(string[] args)
         {
@@ -40,20 +40,18 @@ namespace AdminVuelos
             int seleccion = Herramienta.MenuSeleccionar(opciones, 1, "Personas");
             switch (seleccion)
             {
-                case 1: Menu(); break;
-                case 5:Menu(); break;
+                case 1: MenuUsuario(); break;
+                case 5:MenuUsuario(); break;
             }
 
         }
         public static void Datos()
         {
-<<<<<<< HEAD
-            
-=======
-            //pu
+
+
             Vuelos.Add(new Vuelo(1, "Buenos Aires", "Sao Paolo", new DateTime(2025, 06, 14), new TimeOnly(5), 10));
 
->>>>>>> 484c84d04607e13a5126ef6a70172b70c4c95501
+
         }
     }
 }
