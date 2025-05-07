@@ -11,6 +11,9 @@
     <Reference Include="Libreria2023">
       <HintPath>Libreria2023.dll</HintPath>
     </Reference>
+    <Reference Include="Libreria2025">
+      <HintPath>Libreria2025.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

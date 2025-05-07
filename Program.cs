@@ -1,4 +1,4 @@
-﻿using Libreria2023;
+﻿using Libreria2025;
 using AdminVuelos.Modelos;
 
 
@@ -15,31 +15,28 @@ namespace AdminVuelos
         {
             if (Login)
             {
-                MenuReservas();
-            }else { Menu(); }
+                MenuUsuario();
+            }else { MenuRegistrarse(); }
 
         }
-        public static void Menu()
+        public static void MenuRegistrarse()
         {
             Console.Clear();
             string[] opciones = {"Registrarse","Vuelos","Salir"};
-            Herramientas.DibujoMenu("Opciones", opciones);
-            Console.Write("Seleccione: ");
-            int seleccion = Herramientas.IngresoEnteros(1, opciones.Length);
+            int seleccion = Herramienta.MenuSeleccionar(opciones, 1, "Personas");
+            
             switch (seleccion)
             {
-                case 1: MenuReservas(); break;
+                case 1: MenuUsuario(); break;
                 //case 2: nPasajero.MenuPasajeros(); break;
                 case 3: break;
             }
         }
-        public static void MenuReservas()
+        public static void MenuUsuario()
         {
             Console.Clear();
             string[] opciones = {"Vuelos disponibles","Reservar vuelo","Editar reserva","Cancelar reserva","Mis reservas","Volver"};
-            Herramientas.DibujoMenu("Opciones", opciones);
-            Console.Write("Seleccione: ");
-            int seleccion = Herramientas.IngresoEnteros(1, opciones.Length);
+            int seleccion = Herramienta.MenuSeleccionar(opciones, 1, "Personas");
             switch (seleccion)
             {
                 case 1: Menu(); break;
@@ -49,7 +46,7 @@ namespace AdminVuelos
         }
         public static void Datos()
         {
-            pu
+            
         }
     }
 }
