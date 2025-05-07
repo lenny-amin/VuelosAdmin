@@ -214,6 +214,7 @@ namespace AdminVuelos.Controladores
             else return;
 
         }
+        
         public static void Reservar()
         {
             List<Pasajero> pasajeros = [Program.usuario];
@@ -249,7 +250,7 @@ namespace AdminVuelos.Controladores
                     var pasajero = Program.Pasajeros.Where(p => p.Id != Program.usuario.Id).FirstOrDefault(p => p.Id == id);
                     if (pasajero == null)
                     {
-                        Console.WriteLine("ID inválido. Intente nuevamente.");
+                        Console.WriteLine("\nId inválido. Intente nuevamente.");
                         Console.ReadKey(true);
                         continue;
                     }
@@ -269,13 +270,18 @@ namespace AdminVuelos.Controladores
 
             int lastId = Program.Reservas.Count() != 0 ? Program.Reservas[Program.Reservas.Count()].Id + 1 : 1;
             Reserva reserva = new Reserva(lastId, pasajeros, asientos, Program.usuario, vuelo);
+
             vuelo.Reservas.Add(reserva);
+
+            Program.usuario.Reservas.Add(reserva);
+            Program.Reservas.Add(reserva);
 
             Console.Clear();
             Console.WriteLine("Ha creado una reserva ");
             Console.WriteLine("Origen: " + vuelo.Origen);
             Console.WriteLine("Destino: " + vuelo.Destino);
             Console.WriteLine("Fecha: " + vuelo.FechaSalida.ToShortDateString() + " a las " + vuelo.HoraSalida.ToShortTimeString());
+            Console.WriteLine("Cantidad de asientos: " + reserva.CantidadAsientos);
             Console.Write("Pasajeros: ");
             ImprimirPasajeros(pasajeros);
 
@@ -295,7 +301,8 @@ namespace AdminVuelos.Controladores
                         sw.WriteLine("Origen: " + vuelo.Origen);
                         sw.WriteLine("Destino: " + vuelo.Destino);
                         sw.WriteLine("Fecha: " + vuelo.FechaSalida.ToShortDateString() + " a las " + vuelo.HoraSalida.ToShortTimeString());
-                        sw.Write("Pasajeros:");
+                        sw.WriteLine("Cantidad de asientos: " + reserva.CantidadAsientos);
+                        sw.Write("Pasajeros: ");
                         foreach (Pasajero pasajero in pasajeros)
                         {
                             if (pasajeros.IndexOf(pasajero) == pasajeros.Count() - 1)
@@ -328,7 +335,6 @@ namespace AdminVuelos.Controladores
                 }
             }
         }
-
 
         public static bool VerificarPasajeros(Pasajero pasajero, Vuelo vuelo)
         {
