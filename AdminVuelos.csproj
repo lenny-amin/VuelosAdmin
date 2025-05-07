@@ -11,10 +11,9 @@
     <Reference Include="Libreria2023">
       <HintPath>Libreria2023.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controladores\" />
+    <Reference Include="Libreria2025">
+      <HintPath>..\parcial 1\AdmProyectos\AdmProyectos\AdmProyectos\Libreria2025.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
