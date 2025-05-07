@@ -13,6 +13,7 @@ namespace AdminVuelos
 
         static void Main(string[] args)
         {
+
             if (Login)
             {
                 MenuUsuario();
@@ -46,7 +47,13 @@ namespace AdminVuelos
         }
         public static void Datos()
         {
+<<<<<<< HEAD
             
+=======
+            //pu
+            Vuelos.Add(new Vuelo(1, "Buenos Aires", "Sao Paolo", new DateTime(2025, 06, 14), new TimeOnly(5), 10));
+
+>>>>>>> 484c84d04607e13a5126ef6a70172b70c4c95501
         }
     }
 }
