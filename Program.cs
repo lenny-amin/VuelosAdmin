@@ -1,4 +1,4 @@
-﻿using Libreria2023;
+﻿using Libreria2025;
 using AdminVuelos.Modelos;
 using AdminVuelos.Controladores;
 
@@ -25,12 +25,11 @@ namespace AdminVuelos
         {
             Console.Clear();
             string[] opciones = {"Registrarse","Vuelos","Salir"};
-            Herramientas.DibujoMenu("Opciones", opciones);
-            Console.Write("Seleccione: ");
-            int seleccion = Herramientas.IngresoEnteros(1, opciones.Length);
+            int seleccion = Herramienta.MenuSeleccionar(opciones, 1, "Personas");
+            
             switch (seleccion)
             {
-                case 1: MenuRegistrarse(); break;
+                case 1: MenuUsuario(); break;
                 //case 2: nPasajero.MenuPasajeros(); break;
                 case 3: break;
             }
@@ -39,11 +38,11 @@ namespace AdminVuelos
         {
             Console.Clear();
             string[] opciones = {"Vuelos disponibles","Reservar vuelo","Editar reserva","Cancelar reserva","Mis reservas","Volver"};
-            Herramientas.DibujoMenu("Opciones", opciones);
-            Console.Write("Seleccione: ");
-            int seleccion = Herramientas.IngresoEnteros(1, opciones.Length);
+            int seleccion = Herramienta.MenuSeleccionar(opciones, 1, "Personas");
             switch (seleccion)
             {
+                case 1: MenuUsuario(); break;
+                case 5:MenuUsuario(); break;
                 case 1: Menu(); break;
                 case 2: VueloControlador.Reservar(); MenuUsuario(); break;
                 case 5:Menu(); break;
@@ -52,8 +51,10 @@ namespace AdminVuelos
         }
         public static void Datos()
         {
-            //pu
+
+
             Vuelos.Add(new Vuelo(1, "Buenos Aires", "Sao Paolo", new DateTime(2025, 06, 14), new TimeOnly(5), 10));
+
 
         }
     }

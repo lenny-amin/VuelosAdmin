@@ -15,7 +15,12 @@ namespace AdminVuelos.Modelos
         public TimeOnly HoraSalida { get; set; }
         public int AsientosDisponibles { get; set; }
         public List<Reserva> Reservas { get; set; }
-        public Vuelo() { }
+
+        public Vuelo() {
+            Reservas = new List<Reserva>();
+        }
+
+
         public Vuelo(int id, string origen, string destino, DateTime fechaSalida, TimeOnly horaSalida, int asientosDisponibles)
         {
             Id = id;
@@ -24,7 +29,9 @@ namespace AdminVuelos.Modelos
             FechaSalida = fechaSalida;
             HoraSalida = horaSalida;
             AsientosDisponibles = asientosDisponibles;
+
             Reservas = new List<Reserva>();
+
         }
     }
 }
