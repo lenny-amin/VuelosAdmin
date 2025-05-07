@@ -10,6 +10,7 @@ namespace AdminVuelos
         public static List<Pasajero> Pasajeros = new List<Pasajero>();
         public static List<Reserva> Reservas = new List<Reserva>();
         public static List<Vuelo> Vuelos = new List<Vuelo>();
+        public static Pasajero usuario;
         public static bool Login = true; 
 
         static void Main(string[] args)
@@ -43,9 +44,8 @@ namespace AdminVuelos
             {
                 case 1: MenuUsuario(); break;
                 case 5:MenuUsuario(); break;
-                case 1: Menu(); break;
                 case 2: VueloControlador.Reservar(); MenuUsuario(); break;
-                case 5:Menu(); break;
+                case 3: VueloControlador.Modificar(); MenuUsuario(); break;
             }
 
         }
@@ -53,9 +53,22 @@ namespace AdminVuelos
         {
 
 
-            Vuelos.Add(new Vuelo(1, "Buenos Aires", "Sao Paolo", new DateTime(2025, 06, 14), new TimeOnly(5), 10));
+            Vuelos.Add(new Vuelo(1, "Buenos Aires", "Sao Paolo", new DateTime(2025, 06, 14), new TimeOnly(5, 0, 0), 10));
+            Vuelos.Add(new Vuelo(2, "Istanbul", "Moscu", new DateTime(2025, 02, 13), new TimeOnly(17, 30, 0), 10));
+            Pasajeros.Add(new Pasajero(1, "Samuel", "Peter", "48756921"));
+            Pasajeros.Add(new Pasajero(2, "Abiel", "Moreno", "48756921"));
+            Pasajeros.Add(new Pasajero(3, "Leny", "Amin", "48756921"));
+            Pasajeros.Add(new Pasajero(4, "Jared", "Peter", "48734921"));
+
+            //Reservas.Add(new Reserva(1, new List<Pasajero> { usuario, Pasajeros[0] }, 2, usuario, Vuelos[0]));
+            //Reservas.Add(new Reserva(2, new List<Pasajero> { usuario, Pasajeros[1], Pasajeros[2] }, 3, usuario, Vuelos[1]));
+
+            usuario = Pasajeros[Pasajeros.Count() - 1];
+
+            Reservas.Add(new Reserva(1, new List<Pasajero> { usuario, Pasajeros[0] }, 2, usuario, Vuelos[0]));
+            Reservas.Add(new Reserva(2, new List<Pasajero> { usuario, Pasajeros[1], Pasajeros[2] }, 3, usuario, Vuelos[1]));
 
 
         }
-    }
+}
 }

@@ -10,17 +10,18 @@ namespace AdminVuelos.Modelos
     {
         public int Id { get; set; }
         public List<Pasajero> Pasajeros { get; set; }
-        public int CantidadPasajeros { get; set; }
+        public int CantidadAsientos { get; set; }
         public Pasajero Reservante { get; set; }
-        //public Vuelo Vuelo { get; set; }
+        public Vuelo Vuelo { get; set; }
         public Reserva() {
             Pasajeros = new List<Pasajero>();
         }
-        public Reserva(int id, int cantidad, Pasajero reservante) {
+        public Reserva(int id, List<Pasajero> pasajeros, int cantidad, Pasajero reservante, Vuelo vuelo) {
             Id = id;
-            CantidadPasajeros = cantidad;
+            Pasajeros = pasajeros;
+            CantidadAsientos = cantidad;
             Reservante = reservante;
-            //Vuelo = vuelo;
+            Vuelo = vuelo;
         }
     }
 }
