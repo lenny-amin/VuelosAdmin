@@ -38,14 +38,14 @@ namespace AdminVuelos
         public static void MenuUsuario()
         {
             Console.Clear();
-            string[] opciones = {"Vuelos disponibles","Reservar vuelo","Editar reserva","Cancelar reserva","Mis reservas","Volver"};
+            string[] opciones = {"Vuelos disponibles","Destinos mas visitados","Reservar vuelo","Editar reserva","Cancelar reserva","Mis reservas","Volver"};
             int seleccion = Herramienta.MenuSeleccionar(opciones, 1, "Personas");
             switch (seleccion)
             {
                 case 1: MenuUsuario(); break;
-                case 5:MenuUsuario(); break;
-                case 2: VueloControlador.Reservar(); MenuUsuario(); break;
-                case 3: VueloControlador.Modificar(); MenuUsuario(); break;
+                case 2:VueloControlador.DestinosMasVisitados(); MenuUsuario(); break;
+                case 3: VueloControlador.Reservar(); MenuUsuario(); break;
+                case 4: VueloControlador.Modificar(); MenuUsuario(); break;
             }
 
         }
@@ -67,6 +67,8 @@ namespace AdminVuelos
 
             Reservas.Add(new Reserva(1, new List<Pasajero> { usuario, Pasajeros[0] }, 2, usuario, Vuelos[0]));
             Reservas.Add(new Reserva(2, new List<Pasajero> { usuario, Pasajeros[1], Pasajeros[2] }, 3, usuario, Vuelos[1]));
+            //poner mas datos hardcodeados
+            
 
 
         }
