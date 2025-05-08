@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controladores\" />
     <Folder Include="Reportes\" />
   </ItemGroup>
 

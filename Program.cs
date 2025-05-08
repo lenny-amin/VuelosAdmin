@@ -43,10 +43,10 @@ namespace AdminVuelos
             switch (seleccion)
             {
                 case 1: MenuUsuario(); break;
-                case 2: VueloControlador.ListadoPorDestino(); MenuUsuario(); break;
+                //case 2: VueloControlador.ListadoPorDestino(); MenuUsuario(); break;
                 case 3: VueloControlador.DestinosMasVisitados(); MenuUsuario(); break;
-                case 4: VueloControlador.Reservar(); MenuUsuario(); break;
-                case 5: VueloControlador.Modificar(); MenuUsuario(); break;
+                case 4: ReservaControlador.Reservar(); MenuUsuario(); break;
+                case 5: ReservaControlador.Modificar(); MenuUsuario(); break;
             }
 
         }
