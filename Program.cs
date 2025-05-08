@@ -38,14 +38,15 @@ namespace AdminVuelos
         public static void MenuUsuario()
         {
             Console.Clear();
-            string[] opciones = {"Vuelos disponibles","Destinos mas visitados","Reservar vuelo","Editar reserva","Cancelar reserva","Mis reservas","Volver"};
+            string[] opciones = {"Vuelos disponibles", "Listado por destinos y fechas","Destinos mas visitados","Reservar vuelo","Editar reserva","Cancelar reserva","Mis reservas","Volver"};
             int seleccion = Herramienta.MenuSeleccionar(opciones, 1, "Personas");
             switch (seleccion)
             {
                 case 1: MenuUsuario(); break;
-                case 2:VueloControlador.DestinosMasVisitados(); MenuUsuario(); break;
-                case 3: VueloControlador.Reservar(); MenuUsuario(); break;
-                case 4: VueloControlador.Modificar(); MenuUsuario(); break;
+                case 2: VueloControlador.ListadoPorDestino(); MenuUsuario(); break;
+                case 3: VueloControlador.DestinosMasVisitados(); MenuUsuario(); break;
+                case 4: VueloControlador.Reservar(); MenuUsuario(); break;
+                case 5: VueloControlador.Modificar(); MenuUsuario(); break;
             }
 
         }
@@ -55,6 +56,7 @@ namespace AdminVuelos
 
             Vuelos.Add(new Vuelo(1, "Buenos Aires", "Sao Paolo", new DateTime(2025, 06, 14), new TimeOnly(5, 0, 0), 10));
             Vuelos.Add(new Vuelo(2, "Istanbul", "Moscu", new DateTime(2025, 02, 13), new TimeOnly(17, 30, 0), 10));
+            Vuelos.Add(new Vuelo(3, "Moscu", "Sao Paolo", new DateTime(2025, 06, 14), new TimeOnly(13, 30, 0), 2));
             Pasajeros.Add(new Pasajero(1, "Samuel", "Peter", "48756921"));
             Pasajeros.Add(new Pasajero(2, "Abiel", "Moreno", "48756921"));
             Pasajeros.Add(new Pasajero(3, "Leny", "Amin", "48756921"));

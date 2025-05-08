@@ -12,6 +12,54 @@ namespace AdminVuelos.Controladores
 {
     internal class VueloControlador
     {
+
+        public static void ListadoPorDestino()
+        {
+            Console.Clear();
+
+            // todos los destinos
+            List<string> destinos = [];
+            foreach(Vuelo vuelo in Program.Vuelos)
+            {
+                if (!destinos.Any(d => d == vuelo.Destino))
+                {
+                    destinos.Add(vuelo.Destino);
+                }
+            }
+
+            foreach (string destino in destinos)
+            {
+                Console.WriteLine(destino);
+                List<Vuelo> vuelosConDestino = Program.Vuelos.Where(v => v.Destino == destino).ToList();
+                List<DateTime> tiempos = [];
+
+                foreach (Vuelo vuelo in vuelosConDestino)
+                {
+                    // agregar a los tiempos
+                    if (!tiempos.Any(t => t == vuelo.FechaSalida))
+                    {
+                        tiempos.Add(vuelo.FechaSalida);
+                    }
+                }
+
+                foreach (DateTime tiempo in tiempos)
+                {
+                    Console.WriteLine(" " + tiempo.ToShortDateString());
+                    foreach (Vuelo vuelo in vuelosConDestino)
+                    {
+                        if (tiempo == vuelo.FechaSalida)
+                        {
+                            Console.WriteLine("  Origen: " + vuelo.Origen);
+                            Console.WriteLine("  Asientos disponibles: " + vuelo.AsientosDisponibles);
+                            Console.WriteLine("  Hora de salida: " + vuelo.HoraSalida.ToShortTimeString() + "\n");
+                        }
+                    }
+                }
+                Console.WriteLine();
+            }
+            Console.ReadKey(true);
+        }
+        
         public static void DestinosMasVisitados()
         {
             Console.Clear();
