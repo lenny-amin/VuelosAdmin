@@ -87,8 +87,13 @@ namespace AdminVuelos.Controladores
             var opciones = new List<string[]>();
             opciones.Add(new string[] { "Numero", "Pasajeros", "Cantidad de asientos", "Reservante", "Numero de vuelo" });
 
+            if (Program.usuario.Reservas.Count() == 0)
+            {
+                return null;
+            }
+
             // !IMPORTANT cambiar a reservas del usuario, no globales
-            foreach (Reserva reserva in Program.Reservas)
+            foreach (Reserva reserva in Program.usuario.Reservas)
             {
                 string p = "";
                 foreach (Pasajero pasajero in reserva.Pasajeros)
@@ -136,6 +141,12 @@ namespace AdminVuelos.Controladores
         public static void Modificar()
         {
             Reserva reserva = SeleccionReserva();
+            if (reserva == null)
+            {
+                Console.WriteLine("No tiene reservas. Presione cualquier tecla para volver");
+                Console.ReadKey(true);
+                return;
+            }
             Console.WriteLine();
             Vuelo vuelo = SeleccionVuelo(reserva.Vuelo);
 
@@ -205,9 +216,16 @@ namespace AdminVuelos.Controladores
                 // eliminar el vuelo de la lista de reservas del vuelo
                 reserva.Vuelo.Reservas = reserva.Vuelo.Reservas.Where(r => r.Id != reserva.Id).ToList();
             }
+
             reserva.Vuelo = vuelo;
             reserva.CantidadAsientos = asientos;
             reserva.Pasajeros = pasajeros;
+            // restar la cantidad de asientos
+            if (asientos != reserva.CantidadAsientos)
+            {
+                reserva.Vuelo.AsientosDisponibles += reserva.CantidadAsientos;
+                reserva.Vuelo.AsientosDisponibles -= asientos;
+            }
 
             Console.Clear();
             Console.WriteLine($"Ha editado la reserva {reserva.Id}");
@@ -306,6 +324,7 @@ namespace AdminVuelos.Controladores
             int lastId = Program.Reservas.Count() != 0 ? Program.Reservas[Program.Reservas.Count()].Id + 1 : 1;
             Reserva reserva = new Reserva(lastId, pasajeros, asientos, Program.usuario, vuelo);
 
+            vuelo.AsientosDisponibles -= asientos;
             vuelo.Reservas.Add(reserva);
 
             Program.usuario.Reservas.Add(reserva);
