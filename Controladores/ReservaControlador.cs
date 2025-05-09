@@ -268,7 +268,7 @@ namespace AdminVuelos.Controladores
             Console.Write("Pasajeros: ");
             ImprimirPasajeros(pasajeros);
 
-            Console.WriteLine("\nPresione 1 para imprimir a archivo, o cualquier otra tecla para volver...");
+            Console.WriteLine("\nPresione 1 para imprimir a archivo, o cualquier otra numero para volver...");
             int opcion = Herramienta.IngresoEnteros();
             if (opcion == 1)
             {
@@ -321,6 +321,7 @@ namespace AdminVuelos.Controladores
 
         public static void CancelarReserva()
         {
+            Console.Clear();
             Reserva reserva = SeleccionReserva();
             if (reserva == null)
             {
@@ -335,56 +336,14 @@ namespace AdminVuelos.Controladores
 
         public static void MisReservas()
         {
-            var opciones = new List<string[]>();
-            opciones.Add(new string[] { "Numero", "Pasajeros", "Cantidad de asientos", "Reservante", "Numero de vuelo" });
-
-            if (Program.usuario.Reservas.Count() == 0)
-            {
-                Console.WriteLine("No hay reservas existentes. Toque cualquier tecla para volver");
-                Console.ReadKey(true);
-                return;
-            }
-
-            // !IMPORTANT cambiar a reservas del usuario, no globales
-            foreach (Reserva reserva in Program.usuario.Reservas)
-            {
-                string p = "";
-                foreach (Pasajero pasajero in reserva.Pasajeros)
-                {
-                    if (reserva.Pasajeros.IndexOf(pasajero) == reserva.Pasajeros.Count() - 1)
-                    {
-                        p += pasajero.Nombre + " " + pasajero.Apellido;
-                    }
-                    else
-                    {
-                        p += pasajero.Nombre + " " + pasajero.Apellido + ", ";
-                    }
-                }
-
-                if (p.Length > 11) p = p.Substring(0, 11) + "...";
-
-                opciones.Add(new string[]
-                {
-                    reserva.Id.ToString(),
-                    p,
-                    reserva.CantidadAsientos.ToString(),
-                    reserva.Reservante.Nombre + " " + reserva.Reservante.Apellido,
-                    reserva.Vuelo.Id.ToString()
-                });
-            }
-
-            int rows = opciones.Count;
-            int cols = opciones[0].Length;
-            string[,] tabla = new string[rows, cols];
-
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < cols; j++)
-                {
-                    tabla[i, j] = opciones[i][j];
-                }
-            }
-            Herramienta.DibujaTabla(tabla);
+            Console.Clear();
+            Reserva reserva = SeleccionReserva();
+            Console.Write("\nPasajeros: ");
+            VueloControlador.ImprimirPasajeros(reserva.Pasajeros);
+            Console.WriteLine("\nOrigen: " + reserva.Vuelo.Origen);
+            Console.WriteLine("Destino: " + reserva.Vuelo.Destino);
+            Console.WriteLine("Fecha de salida: " + reserva.Vuelo.FechaSalida.ToShortDateString());
+            Console.WriteLine("Hora de salida: " + reserva.Vuelo.HoraSalida.ToShortTimeString());
             Console.WriteLine("Toque cualquier tecla para volver");
             Console.ReadKey(true);
             return;
