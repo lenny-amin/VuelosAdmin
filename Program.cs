@@ -1,5 +1,6 @@
-﻿using Libreria2023;
+﻿using Libreria2025;
 using AdminVuelos.Modelos;
+using AdminVuelos.Controladores;
 
 
 namespace AdminVuelos
@@ -9,47 +10,66 @@ namespace AdminVuelos
         public static List<Pasajero> Pasajeros = new List<Pasajero>();
         public static List<Reserva> Reservas = new List<Reserva>();
         public static List<Vuelo> Vuelos = new List<Vuelo>();
-        public static bool Login = false; 
+        public static Pasajero usuario;
+        public static bool Login = true; 
 
         static void Main(string[] args)
         {
+            Datos();
             if (Login)
             {
-                MenuReservas();
-            }else { Menu(); }
+                MenuUsuario();
+            }else { MenuRegistrarse(); }
 
         }
-        public static void Menu()
+        public static void MenuRegistrarse()
         {
             Console.Clear();
             string[] opciones = {"Registrarse","Vuelos","Salir"};
-            Herramientas.DibujoMenu("Opciones", opciones);
-            Console.Write("Seleccione: ");
-            int seleccion = Herramientas.IngresoEnteros(1, opciones.Length);
+            int seleccion = Herramienta.MenuSeleccionar(opciones, 1, "Personas");
+            
             switch (seleccion)
             {
-                case 1: MenuReservas(); break;
+                case 1: MenuUsuario(); break;
                 //case 2: nPasajero.MenuPasajeros(); break;
                 case 3: break;
             }
         }
-        public static void MenuReservas()
+        public static void MenuUsuario()
         {
             Console.Clear();
-            string[] opciones = {"Vuelos disponibles","Reservar vuelo","Editar reserva","Cancelar reserva","Mis reservas","Volver"};
-            Herramientas.DibujoMenu("Opciones", opciones);
-            Console.Write("Seleccione: ");
-            int seleccion = Herramientas.IngresoEnteros(1, opciones.Length);
+            string[] opciones = {"Vuelos disponibles", "Listado por destinos y fechas","Destinos mas visitados","Reservar vuelo","Editar reserva","Cancelar reserva","Mis reservas","Volver"};
+            int seleccion = Herramienta.MenuSeleccionar(opciones, 1, "Personas");
             switch (seleccion)
             {
-                case 1: Menu(); break;
-                case 5:Menu(); break;
+                case 1: MenuUsuario(); break;
+                //case 2: VueloControlador.ListadoPorDestino(); MenuUsuario(); break;
+                case 3: VueloControlador.DestinosMasVisitados(); MenuUsuario(); break;
+                case 4: ReservaControlador.Reservar(); MenuUsuario(); break;
+                case 5: ReservaControlador.Modificar(); MenuUsuario(); break;
+                case 6: ReservaControlador.CancelarReserva(); MenuUsuario(); break;
+                case 7: ReservaControlador.MisReservas(); MenuUsuario(); break;
             }
-
         }
         public static void Datos()
         {
-            //puta madre nya uwu onichan lenny meteme el pingo
+            Vuelos.Add(new Vuelo(1, "Buenos Aires", "Sao Paolo", new DateTime(2025, 06, 14), new TimeOnly(5, 0, 0), 10));
+            Vuelos.Add(new Vuelo(2, "Istanbul", "Moscu", new DateTime(2025, 02, 13), new TimeOnly(17, 30, 0), 10));
+            Vuelos.Add(new Vuelo(3, "Moscu", "Sao Paolo", new DateTime(2025, 06, 14), new TimeOnly(13, 30, 0), 2));
+            Pasajeros.Add(new Pasajero(1, "Samuel", "Peter", "48756921"));
+            Pasajeros.Add(new Pasajero(2, "Abiel", "Moreno", "48756921"));
+            Pasajeros.Add(new Pasajero(3, "Leny", "Amin", "48756921"));
+            Pasajeros.Add(new Pasajero(4, "Jared", "Peter", "48734921"));
+
+            //Reservas.Add(new Reserva(1, new List<Pasajero> { usuario, Pasajeros[0] }, 2, usuario, Vuelos[0]));
+            //Reservas.Add(new Reserva(2, new List<Pasajero> { usuario, Pasajeros[1], Pasajeros[2] }, 3, usuario, Vuelos[1]));
+
+            usuario = Pasajeros[Pasajeros.Count() - 1];
+
+            //Reservas.Add(new Reserva(1, new List<Pasajero> { usuario, Pasajeros[0] }, 2, usuario, Vuelos[0]));
+            //Reservas.Add(new Reserva(2, new List<Pasajero> { usuario, Pasajeros[1], Pasajeros[2] }, 3, usuario, Vuelos[1]));
+            //poner mas datos hardcodeados
+            
         }
     }
 }

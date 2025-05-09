@@ -1,0 +1,6 @@
+Ha creado una reserva 
+Origen: Moscu
+Destino: Sao Paolo
+Fecha: 14/06/2025 a las 13:30
+Cantidad de asientos: 1
+Pasajeros: Jared Peter

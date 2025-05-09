@@ -12,16 +12,21 @@ namespace AdminVuelos.Modelos
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public string Dni { get; set; }
-
-        public Pasajero() { }
+        public List<Reserva> Reservas { get; set; }
+        public Pasajero()
+        {
+            Reservas = new List<Reserva>();
+        }
         public Pasajero(int id, string nombre, string apellido, string dni)
         {
             Id = id;
             Nombre = nombre;
             Apellido = apellido;
             Dni = dni;
+            Reservas = new List<Reserva>();
+
         }
 
     }
-    
+
 }
