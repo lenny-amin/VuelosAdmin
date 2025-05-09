@@ -214,7 +214,7 @@ namespace AdminVuelos.Controladores
             {
                 Console.WriteLine("La cantidad de asientos que eligio excede la cantidad de asientos disponibles");
                 Console.ReadKey(true);
-                Reservar();
+                return;
             }
 
             if (asientos > 1)

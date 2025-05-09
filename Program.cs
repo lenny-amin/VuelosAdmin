@@ -64,7 +64,7 @@ namespace AdminVuelos
             //Reservas.Add(new Reserva(1, new List<Pasajero> { usuario, Pasajeros[0] }, 2, usuario, Vuelos[0]));
             //Reservas.Add(new Reserva(2, new List<Pasajero> { usuario, Pasajeros[1], Pasajeros[2] }, 3, usuario, Vuelos[1]));
 
-            usuario = Pasajeros[Pasajeros.Count() - 1];
+            usuario = Pasajeros[Pasajeros.Count - 1];
 
             //Reservas.Add(new Reserva(1, new List<Pasajero> { usuario, Pasajeros[0] }, 2, usuario, Vuelos[0]));
             //Reservas.Add(new Reserva(2, new List<Pasajero> { usuario, Pasajeros[1], Pasajeros[2] }, 3, usuario, Vuelos[1]));
