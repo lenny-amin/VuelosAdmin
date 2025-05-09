@@ -42,14 +42,21 @@ namespace AdminVuelos
             int seleccion = Herramienta.MenuSeleccionar(opciones, 1, "Personas");
             switch (seleccion)
             {
-                case 1: MenuUsuario(); break;
-                //case 2: VueloControlador.ListadoPorDestino(); MenuUsuario(); break;
+                case 1: VueloControlador.ListarVuelo(); MenuUsuario(); break;
+                case 2: VueloControlador.ListadoPorDestino(); MenuUsuario(); break;
                 case 3: VueloControlador.DestinosMasVisitados(); MenuUsuario(); break;
                 case 4: ReservaControlador.Reservar(); MenuUsuario(); break;
                 case 5: ReservaControlador.Modificar(); MenuUsuario(); break;
                 case 6: ReservaControlador.CancelarReserva(); MenuUsuario(); break;
                 case 7: ReservaControlador.MisReservas(); MenuUsuario(); break;
             }
+        }
+
+        public static void Error(string message)
+        {
+            Console.WriteLine(message);
+            Console.ReadKey(true);
+            return;
         }
         public static void Datos()
         {

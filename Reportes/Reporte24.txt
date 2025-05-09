@@ -1,6 +1,0 @@
-Ha creado una reserva 
-Origen: Istanbul
-Destino: Moscu
-Fecha: 13/02/2025 a las 17:30
-Cantidad de asientos: 2
-Pasajeros: Jared Peter, Samuel Peter

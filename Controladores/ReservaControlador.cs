@@ -64,20 +64,31 @@ namespace AdminVuelos.Controladores
             Console.Write("Ingrese el numero de reserva: ");
             int id = Herramienta.IngresoEnteros();
 
-            return Program.Reservas.First(r => r.Id == id);
+            if (Program.Reservas.FirstOrDefault(r => r.Id == id) != null)
+            {
+                return Program.Reservas.FirstOrDefault(r => r.Id == id);
+            }
+            else return null;
         }
 
         public static void Modificar()
         {
+            Console.Clear();
             Reserva reserva = SeleccionReserva();
             if (reserva == null)
             {
-                Console.WriteLine("No tiene reservas. Presione cualquier tecla para volver");
-                Console.ReadKey(true);
+                Program.Error("No tiene reservas. Presione cualquier tecla para volver");
                 return;
             }
             Console.WriteLine();
             Vuelo vuelo = VueloControlador.SeleccionVuelo(reserva.Vuelo);
+
+            if (vuelo == null)
+            {
+                Program.Error("\nNo se encontro el vuelo");
+                return;
+            }
+
 
             Console.Write($"\nIngrese la cantidad de asientos que quiere (actual: {reserva.CantidadAsientos}): ");
             int asientos = Herramienta.IngresoEnteros();
@@ -100,42 +111,22 @@ namespace AdminVuelos.Controladores
 
 
             List<Pasajero> pasajeros = [Program.usuario];
-            if (opcion == 1) pasajeros = reserva.Pasajeros;
+            if (opcion == 1)
+            {
+                pasajeros = reserva.Pasajeros;
+            }
+            else
+            {
+                pasajeros = [Program.usuario];
+                reserva.Pasajeros = [Program.usuario];
+            }
 
 
             if (opcion != 1)
             {
                 if (asientos > 1)
                 {
-                    int id;
-                    do
-                    {
-                        // fijarse que el pasajero no invite mas acompanantes de los que reservo asientos
-                        if (pasajeros.Count() == asientos) break;
-                        Herramienta.DibujoMenu("Elija un acompañante. Si no quiere, ponga 0", Program.Pasajeros.Where(p => p.Id != Program.usuario.Id).Select(p => p.Nombre + " " + p.Apellido).ToArray());
-                        id = Herramienta.IngresoEnteros();
-
-                        if (id == 0) break;
-
-                        var pasajero = Program.Pasajeros.Where(p => p.Id != Program.usuario.Id).FirstOrDefault(p => p.Id == id);
-                        if (pasajero == null)
-                        {
-                            Console.WriteLine("\nId invalido. Intente nuevamente....");
-                            Console.ReadKey(true);
-                            continue;
-                        }
-
-                        if (!VueloControlador.VerificarPasajeros(pasajero, vuelo))
-                        {
-                            Console.WriteLine("\nEl pasajero ya está en este vuelo.");
-                            Console.ReadKey(true);
-                            continue;
-                        }
-
-                        pasajeros.Add(pasajero);
-
-                    } while (true);
-
+                    pasajeros = SeleccionarPasajeros(pasajeros, asientos, vuelo, true);
                 }
             }
 
@@ -176,8 +167,8 @@ namespace AdminVuelos.Controladores
                     using (StreamWriter sw = File.CreateText(path))
                     {
                         sw.WriteLine($"Ha editado la reserva {reserva.Id}");
-                        Console.WriteLine("Cantidad de asientos: " + reserva.CantidadAsientos);
-                        Console.WriteLine("Numero de vuelo: " + vuelo.Id);
+                        sw.WriteLine("Cantidad de asientos: " + reserva.CantidadAsientos);
+                        sw.WriteLine("Numero de vuelo: " + vuelo.Id);
                         sw.Write("Pasajeros:");
                         foreach (Pasajero pasajero in pasajeros)
                         {
@@ -202,8 +193,24 @@ namespace AdminVuelos.Controladores
             List<Pasajero> pasajeros = [Program.usuario];
             Console.Clear();
             Vuelo vuelo = VueloControlador.SeleccionVuelo();
+            if (vuelo == null)
+            {
+                Program.Error("\nNo se encontro el vuelo");
+                return;
+            }
 
-
+            bool userInVuelo = false;
+            foreach(Reserva r in vuelo.Reservas)
+            {
+                userInVuelo = r.Pasajeros.Where(p => p.Id == Program.usuario.Id).Any();
+            }
+            
+            if (userInVuelo)
+            {
+                Console.Write("\nUsted ya esta en este vuelo, asi que va a reservar para otra(s) persona(s). Presione cualquier tecla para continuar...");
+                Console.ReadKey(true);
+                pasajeros = [];
+            }
 
             Console.Write("\nIngrese la cantidad de asientos que quiere: ");
             int asientos = Herramienta.IngresoEnteros();
@@ -212,42 +219,13 @@ namespace AdminVuelos.Controladores
 
             if (!VueloControlador.Validar(asientos, vuelo))
             {
-                Console.WriteLine("La cantidad de asientos que eligio excede la cantidad de asientos disponibles");
-                Console.ReadKey(true);
+                Program.Error("\nLa cantidad de asientos que eligio excede la cantidad de asientos disponibles. Presione cualquier tecla para intentar de nuevo...");
                 return;
             }
 
             if (asientos > 1)
             {
-                int id;
-                do
-                {
-                    // fijarse que el pasajero no invite mas acompanantes de los que reservo asientos
-                    if (pasajeros.Count() == asientos) break;
-                    Herramienta.DibujoMenu("Elija un acompañante. Si no quiere, ponga 0", Program.Pasajeros.Where(p => p.Id != Program.usuario.Id).Select(p => p.Nombre + " " + p.Apellido).ToArray());
-                    id = Herramienta.IngresoEnteros();
-
-                    if (id == 0) break;
-
-                    var pasajero = Program.Pasajeros.Where(p => p.Id != Program.usuario.Id).FirstOrDefault(p => p.Id == id);
-                    if (pasajero == null)
-                    {
-                        Console.WriteLine("\nId inválido. Intente nuevamente.");
-                        Console.ReadKey(true);
-                        continue;
-                    }
-
-                    if (!VueloControlador.VerificarPasajeros(pasajero, vuelo))
-                    {
-                        Console.WriteLine("\nEl pasajero ya está en este vuelo.");
-                        Console.ReadKey(true);
-                        continue;
-                    }
-
-                    pasajeros.Add(pasajero);
-
-                } while (true);
-
+                pasajeros = SeleccionarPasajeros(pasajeros, asientos, vuelo);
             }
 
             int lastId = Program.Reservas.Count() != 0 ? Program.Reservas[Program.Reservas.Count() - 1].Id + 1 : 1;
@@ -323,28 +301,69 @@ namespace AdminVuelos.Controladores
         {
             Console.Clear();
             Reserva reserva = SeleccionReserva();
+
             if (reserva == null)
             {
-                Console.WriteLine("No tiene reservas. Presione cualquier tecla para volver");
-                Console.ReadKey(true);
+                Program.Error("No tiene reservas. Presione cualquier tecla para volver");
                 return;
             }
 
-            //Program.Reservas.Remove(reserva);
-            Program.usuario.Reservas.RemoveAll(r => r.Id == reserva.Id);
+            Program.usuario.Reservas.Remove(reserva);
         }
 
+        public static List<Pasajero> SeleccionarPasajeros(List<Pasajero> pasajeros, int asientos, Vuelo vuelo, bool? mod = false)
+        {
+            int id;
+            do
+            {
+                // fijarse que el pasajero no invite mas acompanantes de los que reservo asientos
+                if (pasajeros.Count == asientos) break;
+                Herramienta.DibujoMenu("Elija un acompañante. Si no quiere, ponga 0", Program.Pasajeros.Where(p => p.Id != Program.usuario.Id).Select(p => p.Nombre + " " + p.Apellido).ToArray());
+                id = Herramienta.IngresoEnteros();
+
+                if (id == 0) break;
+
+                var pasajero = Program.Pasajeros.Where(p => p.Id != Program.usuario.Id).FirstOrDefault(p => p.Id == id);
+                if (pasajero == null)
+                {
+                    Program.Error("\nEl pasajero no existe. Presione cualquier tecla para intentar de nuevo...");
+                    continue;
+                }
+
+                if (!VueloControlador.VerificarPasajeros(pasajero, vuelo) || pasajeros.FirstOrDefault(p => p.Id == pasajero.Id) != null)
+                {
+                    Program.Error("\nEl pasajero ya esta en este vuelo. Presione cualquier tecla para intentar de nuevo...");
+                    continue;
+                }
+
+                pasajeros.Add(pasajero);
+
+            } while (true);
+            return pasajeros;
+        }
+        
         public static void MisReservas()
         {
             Console.Clear();
             Reserva reserva = SeleccionReserva();
+
+            if (reserva == null)
+            {
+                Program.Error("No tiene reservas. Presione cualquier tecla para volver...");
+                return;
+            }
+
+            Console.Clear();
+
             Console.Write("\nPasajeros: ");
             VueloControlador.ImprimirPasajeros(reserva.Pasajeros);
+
             Console.WriteLine("\nOrigen: " + reserva.Vuelo.Origen);
             Console.WriteLine("Destino: " + reserva.Vuelo.Destino);
             Console.WriteLine("Fecha de salida: " + reserva.Vuelo.FechaSalida.ToShortDateString());
             Console.WriteLine("Hora de salida: " + reserva.Vuelo.HoraSalida.ToShortTimeString());
-            Console.WriteLine("Toque cualquier tecla para volver");
+
+            Console.WriteLine("Toque cualquier tecla para volver...");
             Console.ReadKey(true);
             return;
         }
